@@ -29,7 +29,7 @@ if ($result && $result->num_rows > 0) {
     $row = $result->fetch_assoc();
     echo "<div class='message'>";
     echo "<h2>Student match found:</h2><br>";
-    echo $row['firstname'] . " " . $row['lastname'] . "<br>";
+    echo $row['firstName'] . " " . $row['lastName'] . "<br>";
     echo $row['email'];
     echo "</div>";  
 } else {
