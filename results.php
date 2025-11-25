@@ -16,17 +16,17 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
     $email = trim($_POST['email']);
     $email = filter_var($email, FILTER_SANITIZE_EMAIL);
 }
-$conn = mysqli_connect("localhost", "root", "", "taus_data");
-if (!$conn) {
-    die("Connection failed: " . mysqli_connect_error());
+$conn = new mysqli("localhost", "root", "mysql", "taus_data");
+if ($conn->connect_error) {
+    die("<div class='message'>Connection failed: " . $conn->connect_error . "</div>");
 }
 $stmt = $conn->prepare("SELECT * FROM tbl_student WHERE email = ?");
 $stmt->bind_param("s", $email);
 $stmt->execute();
 $result = $stmt->get_result();
 
-if ($result && mysqli_num_rows($result) > 0) {
-    $row = mysqli_fetch_assoc($result);
+if ($result && $result->num_rows > 0) {
+    $row = $result->fetch_assoc();
     echo "<div class='message'>";
     echo "<h2>Student match found:</h2><br>";
     echo $row['firstname'] . " " . $row['lastname'] . "<br>";
