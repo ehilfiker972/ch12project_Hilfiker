@@ -11,28 +11,32 @@
 <body>
 
 <?php
+$email = "";
 if ($_SERVER['REQUEST_METHOD'] === "POST") {
     $email = trim($_POST['email']);
     $email = filter_var($email, FILTER_SANITIZE_EMAIL);
 }
 $conn = mysqli_connect("localhost", "root", "", "taus_data");
 if (!$conn) {
-    die("Connection failed: " . mysqli_connect_error() . "</div>");
+    die("Connection failed: " . mysqli_connect_error());
 }
-$sql = "SELECT * FROM tbl_student WHERE email = '$email'";
-$result = mysqli_query($conn, $sql);
+$stmt = $conn->prepare("SELECT * FROM tbl_student WHERE email = ?");
+$stmt->bind_param("s", $email);
+$stmt->execute();
+$result = $stmt->get_result();
 
-if (mysqli_num_rows($result) > 0) {
+if ($result && mysqli_num_rows($result) > 0) {
     $row = mysqli_fetch_assoc($result);
-    echo "div class='message'>";
-    echo "<h2>Student match found:br>";
-    echo $row[firstname] . " " . $row[lastname] . "<br>";
-    echo "Email'];
-    echo "</div>";
+    echo "<div class='message'>";
+    echo "<h2>Student match found:</h2><br>";
+    echo $row['firstname'] . " " . $row['lastname'] . "<br>";
+    echo $row['email'];
+    echo "</div>";  
 } else {
     echo "<div class='message'>Email not found.</div>";
 }
-    mysqli_close($conn);
+$stmt->close();
+mysqli_close($conn);
 ?>
 <a href="index.php">Return to form</a>
 </body>
