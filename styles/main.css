@@ -1,0 +1,21 @@
+/*Elijah Hilfiker*/
+/*11/24/2025*/
+
+body {
+    background-color: #f4f4f4;
+    font-family: Arial, sans-serif;
+}
+input {
+    margin: 10px 0;
+    padding: 8px;
+    border: 1px solid #ccc;
+}
+input[type="submit"] {
+    background-color: #5cb85c;
+    color: white;
+    cursor: pointer;
+}
+.message {
+    color: red;
+    margin-top: 20px;
+}
